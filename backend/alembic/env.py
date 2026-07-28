@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from app.core.config import settings
 from app.models.base import Base
-from app.models.task import Task
+from app.models.schema import Comment, Label, Project, Task, User, Workspace, WorkspaceMember
 
 config = context.config
 
