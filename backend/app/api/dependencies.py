@@ -24,17 +24,6 @@ async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
         finally:
             await session.close()
 
-
-async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
-    async with sessionmanager.session() as session:
-        try:
-            yield session
-        except Exception:
-            await session.rollback()
-            raise
-        finally:
-            await session.close()
-
 # Trạm kiểm soát chính
 async def get_current_user(
     token: str = Depends(oauth2_scheme),
