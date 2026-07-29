@@ -6,3 +6,5 @@ aiosqlite
 alembic
 pydantic-settings
 asyncpg
+passlib[bcrypt]
+PyJWT
