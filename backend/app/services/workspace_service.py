@@ -81,8 +81,10 @@ class WorkspaceService:
             workspace_id, current_user.id, 
             [WorkspaceRole.OWNER, WorkspaceRole.EDITOR]
         )
+        from app.models.schema import ProjectStatus
         return await self.project_repo.create(
             workspace_id=workspace_id,
             name=project_data.name,
-            description=project_data.description
+            description=project_data.description,
+            status=ProjectStatus.ACTIVE
         )
