@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  # Cụm Cơ sở dữ liệu PostgreSQL
+  db:
+    image: postgres:16-alpine
+    container_name: taskhub_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_DB: taskhub
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Cụm Redis
+  redis:
+    image: redis:7-alpine
+    container_name: taskhub_redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  # Ứng dụng FastAPI của chúng ta
+  api:
+    build: .
+    container_name: taskhub_api
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:yourpassword@db:5432/taskhub
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=super-secret-key-please-change-in-production
+
+volumes:
+  postgres_data:
