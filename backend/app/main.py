@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from app.api.routers import tasks
 from app.core.config import settings
 from app.core.database import sessionmanager
-from app.api.routers import auth, users
+from app.api.routers import auth, users, workspaces
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -15,9 +15,10 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title=settings.PROJECT_NAME, lifespan=lifespan)
-app.include_router(tasks.router, prefix="/api/v1")
+app.include_router(tasks.router, prefix=settings.API_V1_STR)
 app.include_router(auth.router, prefix=settings.API_V1_STR)
 app.include_router(users.router, prefix=settings.API_V1_STR)
+app.include_router(workspaces.router, prefix=settings.API_V1_STR)
 
 
 @app.get("/")
