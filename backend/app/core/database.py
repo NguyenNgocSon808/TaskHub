@@ -3,10 +3,12 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 from app.core.config import settings
 
 
+from sqlalchemy.ext.asyncio import AsyncEngine
+
 class DatabaseSessionManager:
     def __init__(self, host: str):
-        self._engine = create_async_engine(host, echo=True)
-        self._sessionmaker = async_sessionmaker(
+        self._engine: AsyncEngine | None = create_async_engine(host, echo=True)
+        self._sessionmaker: async_sessionmaker[AsyncSession] | None = async_sessionmaker(
             autocommit=False,
             autoflush=False,
             bind=self._engine,

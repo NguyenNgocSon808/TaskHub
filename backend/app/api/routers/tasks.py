@@ -1,15 +1,15 @@
 import json
-from fastapi import APIRouter, Depends, Query, BackgroundTasks
-from sqlalchemy.ext.asyncio import AsyncSession
-from typing import List, Optional
 
-from app.api.dependencies import get_db_session, get_current_user
-from app.schemas.task import TaskCreate, TaskUpdate, TaskResponse
-from app.services.task_service import TaskService
-from app.models.schema import User
-from app.models.enums import TaskStatus, TaskPriority
+from fastapi import APIRouter, BackgroundTasks, Depends, Query
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.api.dependencies import get_current_user, get_db_session
 from app.core.redis import redis_client
+from app.models.schema import TaskPriority, TaskStatus
+from app.models.schema import User
+from app.schemas.task import TaskCreate, TaskResponse, TaskUpdate
 from app.services.email_service import send_task_assignment_email
+from app.services.task_service import TaskService
 
 router = APIRouter(tags=["Tasks"])
 
@@ -22,9 +22,9 @@ async def get_tasks_in_project(
     project_id: int,
     skip: int = Query(0, ge=0),
     limit: int = Query(20, ge=1, le=100),
-    status: Optional[TaskStatus] = None,
-    priority: Optional[TaskPriority] = None,
-    assignee_id: Optional[int] = None,
+    status: TaskStatus | None = None,
+    priority: TaskPriority | None = None,
+    assignee_id: int | None = None,
     current_user: User = Depends(get_current_user),
     service: TaskService = Depends(get_task_service)
 ):

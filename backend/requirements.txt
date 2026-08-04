@@ -10,3 +10,5 @@ passlib[bcrypt]
 bcrypt<5
 python-multipart
 PyJWTredis
+ruff
+mypy

@@ -1,8 +1,8 @@
+import jwt
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
-import jwt
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
 from app.core.database import sessionmanager
@@ -13,7 +13,9 @@ from app.models.schema import User
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_STR}/auth/login")
 
 # Dependency lấy DB session (bạn có thể đã viết hàm này ở bước trước)
-from typing import AsyncGenerator
+from collections.abc import AsyncGenerator
+
+
 async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
     async with sessionmanager.session() as session:
         try:
@@ -32,8 +34,8 @@ async def get_current_user(
     try:
         # Giải mã token
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-        user_id: str = payload.get("sub")
-        token_type: str = payload.get("type")
+        user_id: str | None = payload.get("sub")
+        token_type: str | None = payload.get("type")
         
         # Kiểm tra xem có đúng là access token không
         if user_id is None or token_type != "access":

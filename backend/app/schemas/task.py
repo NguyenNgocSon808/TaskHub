@@ -1,33 +1,35 @@
-from pydantic import BaseModel, ConfigDict
-from typing import Optional, List
 from datetime import datetime
-from app.models.enums import TaskStatus, TaskPriority
+
+from pydantic import BaseModel, ConfigDict
+
+from app.models.schema import TaskPriority, TaskStatus
+
 
 class TaskCreate(BaseModel):
     title: str
-    description: Optional[str] = None
+    description: str | None = None
     status: TaskStatus = TaskStatus.TODO
     priority: TaskPriority = TaskPriority.MEDIUM
-    due_date: Optional[datetime] = None
-    assignee_id: Optional[int] = None
+    due_date: datetime | None = None
+    assignee_id: int | None = None
 
 class TaskUpdate(BaseModel):
-    title: Optional[str] = None
-    description: Optional[str] = None
-    status: Optional[TaskStatus] = None
-    priority: Optional[TaskPriority] = None
-    due_date: Optional[datetime] = None
-    assignee_id: Optional[int] = None
+    title: str | None = None
+    description: str | None = None
+    status: TaskStatus | None = None
+    priority: TaskPriority | None = None
+    due_date: datetime | None = None
+    assignee_id: int | None = None
 
 class TaskResponse(BaseModel):
     id: int
     project_id: int
-    assignee_id: Optional[int]
+    assignee_id: int | None
     title: str
-    description: Optional[str]
+    description: str | None
     status: TaskStatus
     priority: TaskPriority
-    due_date: Optional[datetime]
+    due_date: datetime | None
     created_by: int
     created_at: datetime
 

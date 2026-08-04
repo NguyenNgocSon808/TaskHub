@@ -1,8 +1,17 @@
 import enum
 from datetime import datetime
-from typing import Optional
 
-from sqlalchemy import Boolean, Column, DateTime, Enum, ForeignKey, String, Table, Text, func
+from sqlalchemy import (
+    Boolean,
+    Column,
+    DateTime,
+    Enum,
+    ForeignKey,
+    String,
+    Table,
+    Text,
+    func,
+)
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base
@@ -73,7 +82,7 @@ class Project(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     workspace_id: Mapped[int] = mapped_column(ForeignKey("workspaces.id"))
     name: Mapped[str] = mapped_column(String(255))
-    description: Mapped[Optional[str]] = mapped_column(Text)
+    description: Mapped[str | None] = mapped_column(Text)
     status: Mapped[ProjectStatus] = mapped_column(Enum(ProjectStatus))
     created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now())
 
@@ -83,12 +92,12 @@ class Task(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     project_id: Mapped[int] = mapped_column(ForeignKey("projects.id"))
-    assignee_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+    assignee_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
     title: Mapped[str] = mapped_column(String(255))
-    description: Mapped[Optional[str]] = mapped_column(Text)
+    description: Mapped[str | None] = mapped_column(Text)
     status: Mapped[TaskStatus] = mapped_column(Enum(TaskStatus))
     priority: Mapped[TaskPriority] = mapped_column(Enum(TaskPriority))
-    due_date: Mapped[Optional[datetime]] = mapped_column(DateTime)
+    due_date: Mapped[datetime | None] = mapped_column(DateTime)
     created_by: Mapped[int] = mapped_column(ForeignKey("users.id"))
     created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now())
 
@@ -99,7 +108,7 @@ class Label(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     project_id: Mapped[int] = mapped_column(ForeignKey("projects.id"))
     name: Mapped[str] = mapped_column(String(255))
-    color: Mapped[Optional[str]] = mapped_column(String(255))
+    color: Mapped[str | None] = mapped_column(String(255))
 
 
 task_labels = Table(

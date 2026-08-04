@@ -1,12 +1,19 @@
 import jwt
 from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.models.enums import UserRole
-from app.repositories.user import UserRepository
-from app.schemas.user import UserCreate, UserUpdate, UserChangePassword
-from app.core.security import get_password_hash, verify_password, create_access_token, create_refresh_token
+
 from app.core.config import settings
+from app.core.security import (
+    create_access_token,
+    create_refresh_token,
+    get_password_hash,
+    verify_password,
+)
+from app.models.schema import UserRole
 from app.models.schema import User
+from app.repositories.user import UserRepository
+from app.schemas.user import UserChangePassword, UserCreate, UserUpdate
+
 
 class UserService:
     def __init__(self, session: AsyncSession):
@@ -14,7 +21,7 @@ class UserService:
         self.session = session
 
     # ==================== CA 3: AUTHENTICATION ====================
-    async def register(self, user_in: UserCreate) -> User:
+    async def register(self, user_in: UserCreate) -> User | None:
         # Kiểm tra email tồn tại
         existing_user = await self.repo.get_by_email(user_in.email)
         if existing_user:
@@ -57,7 +64,7 @@ class UserService:
             if token_type != "refresh":
                 raise HTTPException(status_code=401, detail="Invalid token type")
                 
-            user = await self.repo.get_by_id(int(user_id))
+            user = await self.repo.get_by_id(int(user_id) if user_id is not None else 0)
             if not user or not user.is_active:
                 raise HTTPException(status_code=401, detail="User not found or inactive")
                 
@@ -70,7 +77,7 @@ class UserService:
             raise HTTPException(status_code=401, detail="Invalid or expired refresh token")
 
     # ==================== CA 4: USER MANAGEMENT ====================
-    async def update_profile(self, user: User, user_in: UserUpdate) -> User:
+    async def update_profile(self, user: User, user_in: UserUpdate) -> User | None:
         update_data = user_in.model_dump(exclude_unset=True)
         return await self.repo.update(user.id, **update_data)
 

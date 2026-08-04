@@ -1,7 +1,10 @@
 import asyncio
+
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
-from app.models.schema import User, Workspace, WorkspaceMember, WorkspaceRole
+
 from app.core.config import settings
+from app.models.schema import User
+
 
 async def test():
     engine = create_async_engine(settings.DATABASE_URL)
@@ -27,7 +30,7 @@ async def test():
         try:
             ws = await ws_service.create_workspace(user, data)
             print(f"Created workspace {ws.id}")
-        except Exception as e:
+        except Exception:
             import traceback
             traceback.print_exc()
 

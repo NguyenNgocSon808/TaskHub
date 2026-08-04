@@ -1,7 +1,9 @@
-from pydantic import BaseModel, EmailStr, ConfigDict
-from typing import Optional
 from datetime import datetime
-from app.models.enums import UserRole
+
+from pydantic import BaseModel, ConfigDict, EmailStr
+
+from app.models.schema import UserRole
+
 
 class UserCreate(BaseModel):
     email: EmailStr
@@ -9,7 +11,7 @@ class UserCreate(BaseModel):
     full_name: str
 
 class UserUpdate(BaseModel):
-    full_name: Optional[str] = None
+    full_name: str | None = None
 
 class UserChangePassword(BaseModel):
     old_password: str

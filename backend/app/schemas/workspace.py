@@ -1,6 +1,9 @@
-from pydantic import BaseModel, ConfigDict
 from datetime import datetime
-from app.models.enums import WorkspaceRole
+
+from pydantic import BaseModel, ConfigDict
+
+from app.models.schema import WorkspaceRole
+
 
 class WorkspaceCreate(BaseModel):
     name: str

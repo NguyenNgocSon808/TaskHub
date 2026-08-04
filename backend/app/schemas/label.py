@@ -1,18 +1,19 @@
+
 from pydantic import BaseModel, ConfigDict
-from typing import Optional
+
 
 class LabelCreate(BaseModel):
     name: str
-    color: Optional[str] = None
+    color: str | None = None
 
 class LabelUpdate(BaseModel):
-    name: Optional[str] = None
-    color: Optional[str] = None
+    name: str | None = None
+    color: str | None = None
 
 class LabelResponse(BaseModel):
     id: int
     project_id: int
     name: str
-    color: Optional[str]
+    color: str | None
 
     model_config = ConfigDict(from_attributes=True)

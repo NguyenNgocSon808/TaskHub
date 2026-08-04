@@ -1,4 +1,5 @@
 from redis import asyncio as aioredis
+
 from app.core.config import settings
 
 # Tạo connection pool tới Redis

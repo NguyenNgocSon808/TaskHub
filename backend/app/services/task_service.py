@@ -1,8 +1,10 @@
 from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.models.schema import User
 from app.repositories.task import TaskRepository
 from app.schemas.task import TaskCreate, TaskUpdate
-from app.models.schema import User
+
 
 class TaskService:
     def __init__(self, session: AsyncSession):

@@ -1,9 +1,11 @@
-from typing import Optional, List
+
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.repositories.base import BaseRepository
+
+from app.models.schema import TaskPriority, TaskStatus
 from app.models.schema import Task
-from app.models.enums import TaskStatus, TaskPriority
+from app.repositories.base import BaseRepository
+
 
 class TaskRepository(BaseRepository[Task]):
     def __init__(self, session: AsyncSession):
@@ -14,10 +16,10 @@ class TaskRepository(BaseRepository[Task]):
         project_id: int, 
         skip: int = 0, 
         limit: int = 20,
-        status: Optional[TaskStatus] = None,
-        priority: Optional[TaskPriority] = None,
-        assignee_id: Optional[int] = None
-    ) -> List[Task]:
+        status: TaskStatus | None = None,
+        priority: TaskPriority | None = None,
+        assignee_id: int | None = None
+    ) -> list[Task]:
         # Khởi tạo query cơ bản theo project
         query = select(self.model).where(self.model.project_id == project_id)
         
