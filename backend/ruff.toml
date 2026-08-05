@@ -1,0 +1,9 @@
+[lint]
+ignore = [
+    "B008", # Do not perform function call `Depends` in argument defaults (standard in FastAPI)
+    "BLE001", # Do not catch blind exception `Exception` (acceptable in tests)
+    "E722", # Do not use bare `except` (acceptable in tests)
+    "TRY002", # Create your own exception (acceptable for simple cases)
+    "F841", # Local variable is assigned to but never used
+    "B009", # Do not call `getattr` with a constant attribute value (conflicts with mypy on SQLAlchemy Base)
+]

@@ -2,8 +2,7 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.schema import TaskPriority, TaskStatus
-from app.models.schema import Task
+from app.models.schema import Task, TaskPriority, TaskStatus
 from app.repositories.base import BaseRepository
 
 

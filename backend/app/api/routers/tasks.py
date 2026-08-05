@@ -5,8 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.dependencies import get_current_user, get_db_session
 from app.core.redis import redis_client
-from app.models.schema import TaskPriority, TaskStatus
-from app.models.schema import User
+from app.models.schema import TaskPriority, TaskStatus, User
 from app.schemas.task import TaskCreate, TaskResponse, TaskUpdate
 from app.services.email_service import send_task_assignment_email
 from app.services.task_service import TaskService

@@ -9,8 +9,7 @@ from app.core.security import (
     get_password_hash,
     verify_password,
 )
-from app.models.schema import UserRole
-from app.models.schema import User
+from app.models.schema import User, UserRole
 from app.repositories.user import UserRepository
 from app.schemas.user import UserChangePassword, UserCreate, UserUpdate
 
