@@ -1,8 +1,8 @@
 import json
-import urllib.request
-import urllib.parse
-import urllib.error
 import time
+import urllib.error
+import urllib.parse
+import urllib.request
 
 BASE_URL = "http://127.0.0.1:8000/api/v1"
 

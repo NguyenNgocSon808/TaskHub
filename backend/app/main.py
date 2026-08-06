@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from app.api.routers import auth, tasks, users, workspaces
+from app.api.routers import auth, comments, labels, tasks, users, workspaces
 from app.core.config import settings
 from app.core.database import sessionmanager
 from app.core.middleware import LogProcessTimeMiddleware
@@ -12,7 +12,9 @@ tags_metadata = [
     {"name": "Authentication", "description": "APIs cấp phát và xác thực JWT Token."},
     {"name": "Users", "description": "Quản lý thông tin cá nhân của người dùng."},
     {"name": "Workspaces", "description": "Quản lý không gian làm việc và phân quyền RBAC."},
-    {"name": "Tasks", "description": "Quản lý công việc, bộ lọc và phân trang."}
+    {"name": "Tasks", "description": "Quản lý công việc, bộ lọc và phân trang."},
+    {"name": "Labels", "description": "Quản lý nhãn công việc."},
+    {"name": "Comments", "description": "Quản lý bình luận công việc."}
 ]
 
 @asynccontextmanager
@@ -39,6 +41,8 @@ app.include_router(auth.router, prefix=settings.API_V1_STR)
 app.include_router(users.router, prefix=settings.API_V1_STR)
 app.include_router(workspaces.router, prefix=settings.API_V1_STR)
 app.include_router(tasks.router, prefix=settings.API_V1_STR)
+app.include_router(labels.router, prefix=settings.API_V1_STR)
+app.include_router(comments.router, prefix=settings.API_V1_STR)
 
 @app.get("/", tags=["Health Check"])
 async def root():
